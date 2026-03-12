@@ -1,1 +1,1079 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Loup qui avait peur de tout - Projet interactif</title>
+  <meta name="description" content="Projet web interactif inspiré de l'univers du Loup : découverte de l'histoire, personnages, émotions et activités pour enfants." />
+  <style>
+    :root{
+      --bg: #fffaf4;
+      --bg-soft: #fff2df;
+      --card: #ffffff;
+      --text: #3b2f2f;
+      --accent: #f08a5d;
+      --accent-dark: #d96c3f;
+      --accent-2: #ffd166;
+      --green: #7cb518;
+      --blue: #7cc6fe;
+      --shadow: 0 10px 25px rgba(0,0,0,0.08);
+      --radius: 22px;
+    }
 
+    *{
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html{
+      scroll-behavior: smooth;
+    }
+
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #fffaf4 0%, #fff4e8 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    img{
+      max-width: 100%;
+      display: block;
+    }
+
+    a{
+      text-decoration: none;
+      color: inherit;
+    }
+
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,250,244,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .container{
+      width: min(1100px, 92%);
+      margin: 0 auto;
+    }
+
+    .nav{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      gap: 20px;
+    }
+
+    .logo{
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--accent-dark);
+    }
+
+    .nav-links{
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a{
+      padding: 8px 12px;
+      border-radius: 999px;
+      transition: 0.25s;
+    }
+
+    .nav-links a:hover{
+      background: var(--bg-soft);
+      color: var(--accent-dark);
+    }
+
+    .hero{
+      padding: 60px 0 40px;
+    }
+
+    .hero-content{
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 35px;
+      align-items: center;
+    }
+
+    .hero-text h1{
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      margin-bottom: 18px;
+      color: #553939;
+    }
+
+    .hero-text p{
+      font-size: 1.05rem;
+      margin-bottom: 22px;
+      max-width: 650px;
+    }
+
+    .badges{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .badge{
+      background: #fff;
+      border: 2px solid #f7d7b8;
+      color: #7a5a44;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      box-shadow: var(--shadow);
+    }
+
+    .buttons{
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn{
+      display: inline-block;
+      padding: 13px 22px;
+      border-radius: 14px;
+      font-weight: bold;
+      transition: transform 0.2s ease, background 0.2s ease;
+      cursor: pointer;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .btn-primary{
+      background: var(--accent);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover{
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary{
+      background: white;
+      color: var(--accent-dark);
+      border: 2px solid #f7d7b8;
+    }
+
+    .btn-secondary:hover{
+      transform: translateY(-2px);
+      background: var(--bg-soft);
+    }
+
+    .hero-card{
+      background: white;
+      padding: 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-illustration{
+      background: linear-gradient(135deg, #fff0dc, #ffe4b8);
+      border-radius: 20px;
+      min-height: 380px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sun{
+      position: absolute;
+      top: 28px;
+      right: 28px;
+      width: 80px;
+      height: 80px;
+      background: #ffd166;
+      border-radius: 50%;
+      box-shadow: 0 0 0 14px rgba(255, 209, 102, 0.2);
+    }
+
+    .cloud{
+      position: absolute;
+      background: #fff;
+      border-radius: 999px;
+      opacity: 0.95;
+    }
+
+    .cloud.one{
+      width: 100px;
+      height: 42px;
+      top: 65px;
+      left: 35px;
+    }
+
+    .cloud.two{
+      width: 80px;
+      height: 36px;
+      top: 120px;
+      left: 110px;
+    }
+
+    .forest{
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(180deg, #93c47d 0%, #6aa84f 100%);
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+    }
+
+    .wolf{
+      position: relative;
+      width: 180px;
+      height: 220px;
+      z-index: 2;
+      animation: floatWolf 2.6s ease-in-out infinite;
+    }
+
+    @keyframes floatWolf {
+      0%,100%{ transform: translateY(0px); }
+      50%{ transform: translateY(-8px); }
+    }
+
+    .wolf-head{
+      width: 130px;
+      height: 120px;
+      background: #8f8f95;
+      border-radius: 35% 35% 42% 42%;
+      margin: 0 auto;
+      position: relative;
+      top: 10px;
+    }
+
+    .ear{
+      position: absolute;
+      width: 38px;
+      height: 48px;
+      background: #76767c;
+      top: -18px;
+      border-radius: 40% 40% 10% 10%;
+    }
+
+    .ear.left{ left: 12px; transform: rotate(-16deg); }
+    .ear.right{ right: 12px; transform: rotate(16deg); }
+
+    .eye{
+      position: absolute;
+      width: 14px;
+      height: 18px;
+      background: white;
+      border-radius: 50%;
+      top: 46px;
+    }
+
+    .eye::after{
+      content: "";
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #222;
+      border-radius: 50%;
+      top: 6px;
+      left: 4px;
+    }
+
+    .eye.left{ left: 34px; }
+    .eye.right{ right: 34px; }
+
+    .nose{
+      position: absolute;
+      width: 18px;
+      height: 12px;
+      background: #222;
+      border-radius: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 70px;
+    }
+
+    .mouth{
+      position: absolute;
+      width: 30px;
+      height: 16px;
+      border-bottom: 3px solid #333;
+      border-radius: 0 0 20px 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 82px;
+    }
+
+    .blush{
+      position: absolute;
+      width: 18px;
+      height: 10px;
+      background: rgba(240,138,93,0.25);
+      border-radius: 50%;
+      top: 74px;
+    }
+
+    .blush.left{ left: 20px; }
+    .blush.right{ right: 20px; }
+
+    .wolf-body{
+      width: 110px;
+      height: 105px;
+      background: #9b9ba1;
+      border-radius: 35px;
+      margin: -8px auto 0;
+      position: relative;
+    }
+
+    .paw{
+      position: absolute;
+      width: 24px;
+      height: 34px;
+      background: #8b8b91;
+      bottom: -18px;
+      border-radius: 14px;
+    }
+
+    .paw.left{ left: 18px; }
+    .paw.right{ right: 18px; }
+
+    section{
+      padding: 35px 0;
+    }
+
+    .section-title{
+      font-size: 2rem;
+      margin-bottom: 12px;
+      color: #5e3d2c;
+    }
+
+    .section-subtitle{
+      color: #6e5a50;
+      margin-bottom: 25px;
+      max-width: 750px;
+    }
+
+    .grid{
+      display: grid;
+      gap: 22px;
+    }
+
+    .grid-3{
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid-2{
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card{
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3{
+      margin-bottom: 12px;
+      color: #6d4332;
+    }
+
+    .story-step{
+      position: relative;
+      padding-left: 52px;
+    }
+
+    .story-step::before{
+      content: attr(data-step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 34px;
+      height: 34px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .feature-icon{
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: var(--bg-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .emotions{
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .emotion{
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+    }
+
+    .emotion:hover{
+      transform: translateY(-5px);
+    }
+
+    .emoji{
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .quiz-box{
+      background: linear-gradient(135deg, #fff5e7, #fff);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .quiz-question{
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 18px;
+      color: #5a3c2f;
+    }
+
+    .quiz-options{
+      display: grid;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .quiz-options button{
+      text-align: left;
+      background: white;
+      border: 2px solid #f1dcc8;
+      padding: 14px 16px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-size: 1rem;
+    }
+
+    .quiz-options button:hover{
+      background: #fff6ea;
+      border-color: #f0b27a;
+    }
+
+    .quiz-result{
+      margin-top: 10px;
+      font-weight: bold;
+      min-height: 30px;
+    }
+
+    .gallery{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .gallery-item{
+      background: white;
+      padding: 14px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .mini-scene{
+      height: 180px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #dff4ff 0%, #fff0d9 100%);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .mini-ground{
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 55px;
+      background: #9ad17b;
+    }
+
+    .mini-tree{
+      position: absolute;
+      bottom: 35px;
+      width: 30px;
+      height: 70px;
+      background: #8b5a3c;
+      left: 25px;
+      border-radius: 10px;
+    }
+
+    .mini-tree::before{
+      content: "";
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      background: #5da84d;
+      border-radius: 50%;
+      left: -20px;
+      top: -35px;
+    }
+
+    .mini-wolf{
+      position: absolute;
+      bottom: 25px;
+      right: 25px;
+      width: 60px;
+      height: 60px;
+      background: #8e8e94;
+      border-radius: 20px;
+    }
+
+    .mini-wolf::before{
+      content: "";
+      position: absolute;
+      width: 44px;
+      height: 36px;
+      background: #808087;
+      border-radius: 16px;
+      top: -20px;
+      left: 8px;
+    }
+
+    .mini-wolf::after{
+      content: "!";
+      position: absolute;
+      top: -35px;
+      right: -6px;
+      color: #e63946;
+      font-weight: bold;
+      font-size: 1.6rem;
+    }
+
+    .contact-box{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .form-group{
+      margin-bottom: 16px;
+    }
+
+    label{
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input, textarea{
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #eddccc;
+      border-radius: 14px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    textarea{
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus{
+      border-color: #f0b27a;
+    }
+
+    footer{
+      margin-top: 40px;
+      background: #5e3d2c;
+      color: #fff6ed;
+      padding: 28px 0;
+      text-align: center;
+    }
+
+    .small{
+      font-size: 0.92rem;
+      opacity: 0.95;
+    }
+
+    .note{
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: #6f5b4e;
+    }
+
+    .fade-in{
+      opacity: 0;
+      transform: translateY(18px);
+      transition: all 0.7s ease;
+    }
+
+    .fade-in.visible{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px){
+      .hero-content,
+      .grid-3,
+      .grid-2,
+      .contact-box,
+      .gallery,
+      .emotions{
+        grid-template-columns: 1fr;
+      }
+
+      .hero{
+        padding-top: 35px;
+      }
+
+      .hero-illustration{
+        min-height: 320px;
+      }
+
+      .nav{
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links{
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="logo">🐺 Le Loup qui avait peur de tout</div>
+      <nav class="nav-links">
+        <a href="#accueil">Accueil</a>
+        <a href="#histoire">Histoire</a>
+        <a href="#personnages">Personnages</a>
+        <a href="#emotions">Émotions</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#galerie">Visuels</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="accueil">
+      <div class="container hero-content">
+        <div class="hero-text fade-in">
+          <h1>Un site interactif inspiré de l’univers du loup</h1>
+          <p>
+            Ce projet propose une découverte douce, ludique et visuelle d’une histoire autour
+            de la peur, du courage et de la confiance en soi. Il s’adresse principalement aux
+            enfants, aux parents et aux enseignants qui souhaitent explorer les émotions de façon simple.
+          </p>
+
+          <div class="badges">
+            <div class="badge">Projet jeunesse</div>
+            <div class="badge">Lecture interactive</div>
+            <div class="badge">Émotions & imagination</div>
+          </div>
+
+          <div class="buttons">
+            <a href="#histoire" class="btn btn-primary">Lire l’histoire</a>
+            <a href="#quiz" class="btn btn-secondary">Commencer le quiz</a>
+          </div>
+
+          <p class="note">
+            Ce site est une adaptation pédagogique et créative inspirée d’un univers jeunesse.
+          </p>
+        </div>
+
+        <div class="hero-card fade-in">
+          <div class="hero-illustration">
+            <div class="sun"></div>
+            <div class="cloud one"></div>
+            <div class="cloud two"></div>
+            <div class="forest"></div>
+
+            <div class="wolf">
+              <div class="wolf-head">
+                <div class="ear left"></div>
+                <div class="ear right"></div>
+                <div class="eye left"></div>
+                <div class="eye right"></div>
+                <div class="nose"></div>
+                <div class="mouth"></div>
+                <div class="blush left"></div>
+                <div class="blush right"></div>
+              </div>
+              <div class="wolf-body">
+                <div class="paw left"></div>
+                <div class="paw right"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="histoire">
+      <div class="container">
+        <h2 class="section-title fade-in">L’histoire</h2>
+        <p class="section-subtitle fade-in">
+          Voici une version reformulée et simplifiée du parcours du loup, pensée pour une lecture numérique.
+        </p>
+
+        <div class="grid grid-2">
+          <div class="card story-step fade-in" data-step="1">
+            <h3>Un loup inquiet</h3>
+            <p>
+              Au début, le loup a peur de beaucoup de choses : les bruits, les ombres, la nuit,
+              les surprises et tout ce qu’il ne connaît pas encore.
+            </p>
+          </div>
+
+          <div class="card story-step fade-in" data-step="2">
+            <h3>Des émotions très fortes</h3>
+            <p>
+              Chaque nouvelle situation lui semble immense. Son imagination transforme de petits
+              détails en grands dangers.
+            </p>
+          </div>
+
+          <div class="card story-step fade-in" data-step="3">
+            <h3>L’apprentissage</h3>
+            <p>
+              Peu à peu, le loup observe, écoute, pose des questions et découvre que tout n’est
+              pas aussi effrayant qu’il l’imaginait.
+            </p>
+          </div>
+
+          <div class="card story-step fade-in" data-step="4">
+            <h3>Le courage grandit</h3>
+            <p>
+              À force d’essayer, il comprend qu’avoir peur n’est pas une faiblesse. C’est une
+              émotion normale qui peut être apprivoisée.
+            </p>
+          </div>
+
+          <div class="card story-step fade-in" data-step="5">
+            <h3>Une transformation</h3>
+            <p>
+              Le loup ne devient pas parfait du jour au lendemain, mais il apprend à avancer
+              malgré ses peurs, avec plus de confiance.
+            </p>
+          </div>
+
+          <div class="card story-step fade-in" data-step="6">
+            <h3>Le message final</h3>
+            <p>
+              Cette histoire montre aux enfants qu’il est possible de parler de ses peurs,
+              de demander de l’aide et de trouver du courage petit à petit.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="personnages">
+      <div class="container">
+        <h2 class="section-title fade-in">Les éléments du projet</h2>
+        <p class="section-subtitle fade-in">
+          Cette version numérique met en avant une approche visuelle, pédagogique et interactive.
+        </p>
+
+        <div class="grid grid-3">
+          <div class="card fade-in">
+            <div class="feature-icon">🐺</div>
+            <h3>Le héros</h3>
+            <p>
+              Le loup est le personnage principal. Il permet aux enfants de reconnaître leurs
+              propres inquiétudes à travers un personnage attachant.
+            </p>
+          </div>
+
+          <div class="card fade-in">
+            <div class="feature-icon">🌲</div>
+            <h3>L’univers</h3>
+            <p>
+              La forêt, les sons, la nuit et les éléments du décor créent une ambiance douce
+              où l’imaginaire occupe une grande place.
+            </p>
+          </div>
+
+          <div class="card fade-in">
+            <div class="feature-icon">✨</div>
+            <h3>L’interactivité</h3>
+            <p>
+              Le site propose une lecture simple, un quiz, des cartes visuelles et une navigation
+              claire adaptée à un public jeunesse.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="emotions">
+      <div class="container">
+        <h2 class="section-title fade-in">Comprendre les émotions</h2>
+        <p class="section-subtitle fade-in">
+          Une partie importante du projet consiste à aider l’enfant à mettre des mots sur ce qu’il ressent.
+        </p>
+
+        <div class="emotions">
+          <div class="emotion fade-in">
+            <div class="emoji">😨</div>
+            <h3>La peur</h3>
+            <p>Elle protège, mais elle peut aussi devenir trop grande quand on imagine le pire.</p>
+          </div>
+
+          <div class="emotion fade-in">
+            <div class="emoji">🤔</div>
+            <h3>Le doute</h3>
+            <p>Le loup hésite souvent avant d’agir, car il ne sait pas encore ce qui l’attend.</p>
+          </div>
+
+          <div class="emotion fade-in">
+            <div class="emoji">💪</div>
+            <h3>Le courage</h3>
+            <p>Le courage, ce n’est pas ne jamais avoir peur : c’est avancer malgré elle.</p>
+          </div>
+
+          <div class="emotion fade-in">
+            <div class="emoji">😊</div>
+            <h3>La confiance</h3>
+            <p>Quand il comprend mieux le monde autour de lui, le loup prend confiance.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="quiz">
+      <div class="container">
+        <h2 class="section-title fade-in">Petit quiz interactif</h2>
+        <p class="section-subtitle fade-in">
+          Ce quiz peut servir d’activité de fin de lecture pour vérifier la compréhension.
+        </p>
+
+        <div class="quiz-box fade-in">
+          <div class="quiz-question" id="question">Pourquoi le loup a-t-il souvent peur ?</div>
+
+          <div class="quiz-options" id="options">
+            <button onclick="checkAnswer(false)">Parce qu’il est méchant</button>
+            <button onclick="checkAnswer(true)">Parce qu’il imagine beaucoup de dangers</button>
+            <button onclick="checkAnswer(false)">Parce qu’il ne veut jamais sortir</button>
+          </div>
+
+          <div class="quiz-result" id="result"></div>
+
+          <button class="btn btn-primary" onclick="nextQuestion()">Question suivante</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="galerie">
+      <div class="container">
+        <h2 class="section-title fade-in">Maquettes visuelles</h2>
+        <p class="section-subtitle fade-in">
+          Voici trois exemples de visuels intégrés au site. Tu peux les garder comme maquettes ou les remplacer par tes propres images.
+        </p>
+
+        <div class="gallery">
+          <div class="gallery-item fade-in">
+            <div class="mini-scene">
+              <div class="mini-tree"></div>
+              <div class="mini-wolf"></div>
+              <div class="mini-ground"></div>
+            </div>
+            <h3>Le loup dans la forêt</h3>
+            <p>Une scène simple qui montre l’ambiance du récit et la peur de l’inconnu.</p>
+          </div>
+
+          <div class="gallery-item fade-in">
+            <div class="mini-scene">
+              <div class="mini-tree" style="left:60px;"></div>
+              <div class="mini-wolf" style="right:50px;"></div>
+              <div class="mini-ground"></div>
+            </div>
+            <h3>Le moment d’hésitation</h3>
+            <p>Un visuel pour illustrer les moments où le personnage doute avant d’agir.</p>
+          </div>
+
+          <div class="gallery-item fade-in">
+            <div class="mini-scene">
+              <div class="mini-tree" style="left:120px;"></div>
+              <div class="mini-wolf" style="right:100px;"></div>
+              <div class="mini-ground"></div>
+            </div>
+            <h3>Vers plus de confiance</h3>
+            <p>Une image qui accompagne la progression du personnage à la fin de l’histoire.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <h2 class="section-title fade-in">Contact / retour sur le projet</h2>
+        <p class="section-subtitle fade-in">
+          Cette partie peut être utilisée dans une maquette finale pour recueillir un avis d’enseignant, de parent ou d’utilisateur.
+        </p>
+
+        <div class="contact-box">
+          <div class="card fade-in">
+            <h3>Présentation du projet</h3>
+            <p>
+              Ce site a été conçu comme une adaptation web jeunesse. Il met en avant :
+            </p>
+            <br>
+            <p>• une navigation simple</p>
+            <p>• un univers illustré</p>
+            <p>• une lecture courte et claire</p>
+            <p>• une activité interactive</p>
+            <p>• une réflexion sur les émotions</p>
+          </div>
+
+          <div class="card fade-in">
+            <h3>Envoyer un message</h3>
+            <form onsubmit="fakeSubmit(event)">
+              <div class="form-group">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" placeholder="Votre nom" required>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Votre email" required>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" placeholder="Votre retour sur le projet..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Envoyer</button>
+              <p class="note" id="form-message"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p><strong>Projet universitaire - Site interactif jeunesse</strong></p>
+      <p class="small">
+        Réalisation d’une maquette web inspirée d’un univers littéraire pour enfants.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const quizData = [
+      {
+        question: "Pourquoi le loup a-t-il souvent peur ?",
+        options: [
+          { text: "Parce qu’il est méchant", correct: false },
+          { text: "Parce qu’il imagine beaucoup de dangers", correct: true },
+          { text: "Parce qu’il ne veut jamais sortir", correct: false }
+        ]
+      },
+      {
+        question: "Que découvre le loup au fil de l’histoire ?",
+        options: [
+          { text: "Que toutes ses peurs sont toujours vraies", correct: false },
+          { text: "Qu’on peut comprendre et apprivoiser ses peurs", correct: true },
+          { text: "Qu’il faut éviter tout ce qui fait peur", correct: false }
+        ]
+      },
+      {
+        question: "Quel est le message principal du projet ?",
+        options: [
+          { text: "La peur doit être cachée", correct: false },
+          { text: "Avoir peur est normal et on peut apprendre à avancer", correct: true },
+          { text: "Il ne faut jamais poser de questions", correct: false }
+        ]
+      }
+    ];
+
+    let currentQuestion = 0;
+
+    function renderQuestion() {
+      const q = quizData[currentQuestion];
+      document.getElementById("question").textContent = q.question;
+
+      const optionsContainer = document.getElementById("options");
+      optionsContainer.innerHTML = "";
+
+      q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option.text;
+        btn.onclick = () => checkAnswer(option.correct);
+        optionsContainer.appendChild(btn);
+      });
+
+      document.getElementById("result").textContent = "";
+    }
+
+    function checkAnswer(isCorrect) {
+      const result = document.getElementById("result");
+      if (isCorrect) {
+        result.textContent = "✅ Bravo ! C’est la bonne réponse.";
+        result.style.color = "#2e7d32";
+      } else {
+        result.textContent = "❌ Ce n’est pas la bonne réponse. Réessaie ou passe à la suivante.";
+        result.style.color = "#c62828";
+      }
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion >= quizData.length) {
+        currentQuestion = 0;
+      }
+      renderQuestion();
+    }
+
+    function fakeSubmit(event) {
+      event.preventDefault();
+      document.getElementById("form-message").textContent =
+        "Merci ! Votre message a bien été pris en compte dans cette maquette.";
+      event.target.reset();
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+
+    renderQuestion();
+  </script>
+</body>
+</html>
