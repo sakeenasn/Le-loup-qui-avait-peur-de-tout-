@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Le Loup qui avait peur de tout - Projet interactif</title>
-  <meta name="description" content="Projet web interactif inspiré de l'univers du Loup : découverte de l'histoire, personnages, émotions et activités pour enfants." />
+  <meta name="description" content="Projet web interactif inspiré de l'univers du Loup : découverte des émotions, mini-jeux éducatifs et parcours enfantin." />
   <style>
     :root{
       --bg: #fffaf4;
@@ -16,6 +16,10 @@
       --accent-2: #ffd166;
       --green: #7cb518;
       --blue: #7cc6fe;
+      --pink: #f7b2d0;
+      --purple: #d8c4f2;
+      --danger: #ef5350;
+      --success: #43a047;
       --shadow: 0 10px 25px rgba(0,0,0,0.08);
       --radius: 22px;
     }
@@ -51,13 +55,13 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(255,250,244,0.95);
+      background: rgba(255,250,244,0.96);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(0,0,0,0.05);
     }
 
     .container{
-      width: min(1100px, 92%);
+      width: min(1120px, 92%);
       margin: 0 auto;
     }
 
@@ -70,14 +74,14 @@
     }
 
     .logo{
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: bold;
       color: var(--accent-dark);
     }
 
     .nav-links{
       display: flex;
-      gap: 18px;
+      gap: 10px;
       flex-wrap: wrap;
       font-size: 0.95rem;
     }
@@ -105,7 +109,7 @@
     }
 
     .hero-text h1{
-      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-size: clamp(2rem, 5vw, 3.4rem);
       line-height: 1.1;
       margin-bottom: 18px;
       color: #553939;
@@ -145,7 +149,7 @@
       padding: 13px 22px;
       border-radius: 14px;
       font-weight: bold;
-      transition: transform 0.2s ease, background 0.2s ease;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
       cursor: pointer;
       border: none;
       font-size: 1rem;
@@ -173,6 +177,17 @@
       background: var(--bg-soft);
     }
 
+    .btn-soft{
+      background: #fff7ea;
+      color: #7a5a44;
+      border: 2px solid #f1dcc8;
+    }
+
+    .btn-soft:hover{
+      background: #fff2df;
+      transform: translateY(-2px);
+    }
+
     .hero-card{
       background: white;
       padding: 24px;
@@ -185,7 +200,7 @@
     .hero-illustration{
       background: linear-gradient(135deg, #fff0dc, #ffe4b8);
       border-radius: 20px;
-      min-height: 380px;
+      min-height: 390px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -350,7 +365,7 @@
     .paw.right{ right: 18px; }
 
     section{
-      padding: 35px 0;
+      padding: 38px 0;
     }
 
     .section-title{
@@ -362,12 +377,16 @@
     .section-subtitle{
       color: #6e5a50;
       margin-bottom: 25px;
-      max-width: 750px;
+      max-width: 760px;
     }
 
     .grid{
       display: grid;
       gap: 22px;
+    }
+
+    .grid-4{
+      grid-template-columns: repeat(4, 1fr);
     }
 
     .grid-3{
@@ -423,6 +442,63 @@
       margin-bottom: 15px;
     }
 
+    .guide-box{
+      background: linear-gradient(135deg, #fff5e7, #fff);
+      border: 2px dashed #f0b27a;
+      border-radius: 20px;
+      padding: 18px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .guide-avatar{
+      flex-shrink: 0;
+      width: 86px;
+      height: 86px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #ffe3bf, #fff1dd);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.3rem;
+    }
+
+    .guide-message{
+      font-size: 1rem;
+      color: #5c4b42;
+    }
+
+    .progress-card{
+      display: grid;
+      gap: 12px;
+    }
+
+    .progress-line{
+      width: 100%;
+      height: 18px;
+      background: #f1e5d8;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill{
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    .progress-stats{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-weight: bold;
+      color: #6e5244;
+    }
+
     .emotions{
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -447,27 +523,128 @@
       margin-bottom: 10px;
     }
 
-    .quiz-box{
+    .emotion-tag{
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    .tag-yellow{ background: #fff0a8; color: #7a5b00; }
+    .tag-blue{ background: #dff0ff; color: #2f5f89; }
+    .tag-purple{ background: #ede1ff; color: #6a43a3; }
+    .tag-red{ background: #ffdada; color: #8a2b2b; }
+
+    .character-card{
+      text-align: center;
+    }
+
+    .character-face{
+      width: 92px;
+      height: 92px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .face-wolf{ background: linear-gradient(135deg, #d5d5da, #b3b3ba); }
+    .face-joy{ background: linear-gradient(135deg, #fff2b6, #ffe08a); }
+    .face-sad{ background: linear-gradient(135deg, #dff0ff, #b7dcff); }
+    .face-angry{ background: linear-gradient(135deg, #ffd6d6, #ffb1b1); }
+    .face-shy{ background: linear-gradient(135deg, #f3e2ff, #dfc6ff); }
+
+    .games-grid{
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .game-card{
+      background: linear-gradient(135deg, #fff9f0, #fff);
+      border: 2px solid #f1dcc8;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .game-card h3{
+      margin-bottom: 10px;
+    }
+
+    .game-badge{
+      display: inline-block;
+      margin-bottom: 10px;
+      background: #fff;
+      border: 2px solid #f4dfca;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: bold;
+      color: #7d5f4d;
+    }
+
+    .activity-panel{
+      margin-top: 26px;
       background: linear-gradient(135deg, #fff5e7, #fff);
       border-radius: 24px;
       padding: 28px;
       box-shadow: var(--shadow);
     }
 
-    .quiz-question{
-      font-size: 1.2rem;
+    .activity-title{
+      font-size: 1.35rem;
       font-weight: bold;
+      color: #5a3c2f;
+      margin-bottom: 10px;
+    }
+
+    .activity-subtitle{
+      color: #705c50;
       margin-bottom: 18px;
+    }
+
+    .activity-scene{
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      background: #fff;
+      border: 2px solid #f1dcc8;
+      padding: 16px;
+      border-radius: 18px;
+      margin-bottom: 18px;
+    }
+
+    .scene-avatar{
+      width: 78px;
+      height: 78px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      background: linear-gradient(135deg, #fff0dc, #ffe4b8);
+      flex-shrink: 0;
+    }
+
+    .activity-question{
+      font-size: 1.12rem;
+      font-weight: bold;
       color: #5a3c2f;
     }
 
-    .quiz-options{
+    .activity-options{
       display: grid;
       gap: 12px;
       margin-bottom: 18px;
     }
 
-    .quiz-options button{
+    .activity-options button{
       text-align: left;
       background: white;
       border: 2px solid #f1dcc8;
@@ -478,18 +655,28 @@
       font-size: 1rem;
     }
 
-    .quiz-options button:hover{
+    .activity-options button:hover{
       background: #fff6ea;
       border-color: #f0b27a;
     }
 
-    .quiz-result{
-      margin-top: 10px;
+    .activity-result{
+      margin-top: 8px;
       font-weight: bold;
-      min-height: 30px;
+      min-height: 34px;
     }
 
-    .gallery{
+    .activity-controls{
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .success-text{ color: var(--success); }
+    .error-text{ color: #c62828; }
+
+    .mini-scenes{
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
@@ -571,41 +758,6 @@
       font-size: 1.6rem;
     }
 
-    .contact-box{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 22px;
-      align-items: stretch;
-    }
-
-    .form-group{
-      margin-bottom: 16px;
-    }
-
-    label{
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
-
-    input, textarea{
-      width: 100%;
-      padding: 12px 14px;
-      border: 2px solid #eddccc;
-      border-radius: 14px;
-      font-size: 1rem;
-      outline: none;
-    }
-
-    textarea{
-      min-height: 140px;
-      resize: vertical;
-    }
-
-    input:focus, textarea:focus{
-      border-color: #f0b27a;
-    }
-
     footer{
       margin-top: 40px;
       background: #5e3d2c;
@@ -636,12 +788,18 @@
       transform: translateY(0);
     }
 
+    @media (max-width: 1000px){
+      .games-grid,
+      .grid-4{
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     @media (max-width: 900px){
       .hero-content,
       .grid-3,
       .grid-2,
-      .contact-box,
-      .gallery,
+      .mini-scenes,
       .emotions{
         grid-template-columns: 1fr;
       }
@@ -662,6 +820,21 @@
       .nav-links{
         gap: 10px;
       }
+
+      .games-grid{
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px){
+      .activity-scene{
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .grid-4{
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -669,15 +842,15 @@
 
   <header>
     <div class="container nav">
-      <div class="logo">🐺 Le Loup qui avait peur de tout</div>
+      <div class="logo">🐺 Émotions & Moi - Le Loup</div>
       <nav class="nav-links">
         <a href="#accueil">Accueil</a>
         <a href="#histoire">Histoire</a>
+        <a href="#guide">Guide</a>
         <a href="#personnages">Personnages</a>
         <a href="#emotions">Émotions</a>
-        <a href="#quiz">Quiz</a>
-        <a href="#galerie">Visuels</a>
-        <a href="#contact">Contact</a>
+        <a href="#jeux">Mini-jeux</a>
+        <a href="#progression">Progression</a>
       </nav>
     </div>
   </header>
@@ -686,26 +859,26 @@
     <section class="hero" id="accueil">
       <div class="container hero-content">
         <div class="hero-text fade-in">
-          <h1>Un site interactif inspiré de l’univers du loup</h1>
+          <h1>Un parcours interactif pour apprendre les émotions avec le loup</h1>
           <p>
-            Ce projet propose une découverte douce, ludique et visuelle d’une histoire autour
-            de la peur, du courage et de la confiance en soi. Il s’adresse principalement aux
-            enfants, aux parents et aux enseignants qui souhaitent explorer les émotions de façon simple.
+            Cette version numérique transforme l’histoire du loup en expérience interactive.
+            L’enfant découvre les émotions, observe des situations, répond à des questions
+            et apprend peu à peu à mieux comprendre ce qu’il ressent.
           </p>
 
           <div class="badges">
             <div class="badge">Projet jeunesse</div>
-            <div class="badge">Lecture interactive</div>
-            <div class="badge">Émotions & imagination</div>
+            <div class="badge">Mini-jeux éducatifs</div>
+            <div class="badge">Émotions & confiance en soi</div>
           </div>
 
           <div class="buttons">
-            <a href="#histoire" class="btn btn-primary">Lire l’histoire</a>
-            <a href="#quiz" class="btn btn-secondary">Commencer le quiz</a>
+            <a href="#jeux" class="btn btn-primary">Commencer les jeux</a>
+            <a href="#emotions" class="btn btn-secondary">Voir les émotions</a>
           </div>
 
           <p class="note">
-            Ce site est une adaptation pédagogique et créative inspirée d’un univers jeunesse.
+            Une adaptation pédagogique pensée pour les enfants, les parents et les enseignants.
           </p>
         </div>
 
@@ -739,58 +912,56 @@
 
     <section id="histoire">
       <div class="container">
-        <h2 class="section-title fade-in">L’histoire</h2>
+        <h2 class="section-title fade-in">L’histoire du loup</h2>
         <p class="section-subtitle fade-in">
-          Voici une version reformulée et simplifiée du parcours du loup, pensée pour une lecture numérique.
+          L’histoire sert de point de départ au projet. Le loup a peur de beaucoup de choses,
+          mais il apprend peu à peu à reconnaître ses émotions et à avancer avec plus de confiance.
         </p>
 
         <div class="grid grid-2">
           <div class="card story-step fade-in" data-step="1">
-            <h3>Un loup inquiet</h3>
+            <h3>Le loup a peur</h3>
             <p>
-              Au début, le loup a peur de beaucoup de choses : les bruits, les ombres, la nuit,
-              les surprises et tout ce qu’il ne connaît pas encore.
+              Les bruits, la nuit, les ombres et les situations inconnues lui semblent parfois très impressionnants.
             </p>
           </div>
 
           <div class="card story-step fade-in" data-step="2">
-            <h3>Des émotions très fortes</h3>
+            <h3>Tout paraît plus grand</h3>
             <p>
-              Chaque nouvelle situation lui semble immense. Son imagination transforme de petits
-              détails en grands dangers.
+              Son imagination transforme parfois de petites choses en grandes menaces.
             </p>
           </div>
 
           <div class="card story-step fade-in" data-step="3">
-            <h3>L’apprentissage</h3>
+            <h3>Il observe et apprend</h3>
             <p>
-              Peu à peu, le loup observe, écoute, pose des questions et découvre que tout n’est
-              pas aussi effrayant qu’il l’imaginait.
+              Petit à petit, il comprend mieux ce qu’il ressent et découvre que la peur est une émotion normale.
             </p>
           </div>
 
           <div class="card story-step fade-in" data-step="4">
-            <h3>Le courage grandit</h3>
+            <h3>Il prend confiance</h3>
             <p>
-              À force d’essayer, il comprend qu’avoir peur n’est pas une faiblesse. C’est une
-              émotion normale qui peut être apprivoisée.
+              À force d’essayer, de respirer et de demander de l’aide, le loup devient plus rassuré.
             </p>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <div class="card story-step fade-in" data-step="5">
-            <h3>Une transformation</h3>
-            <p>
-              Le loup ne devient pas parfait du jour au lendemain, mais il apprend à avancer
-              malgré ses peurs, avec plus de confiance.
-            </p>
-          </div>
+    <section id="guide">
+      <div class="container">
+        <h2 class="section-title fade-in">Le loup te guide</h2>
+        <p class="section-subtitle fade-in">
+          Dans cette version interactive, le loup devient un personnage guide. Il accompagne l’enfant
+          tout au long du parcours.
+        </p>
 
-          <div class="card story-step fade-in" data-step="6">
-            <h3>Le message final</h3>
-            <p>
-              Cette histoire montre aux enfants qu’il est possible de parler de ses peurs,
-              de demander de l’aide et de trouver du courage petit à petit.
-            </p>
+        <div class="guide-box fade-in">
+          <div class="guide-avatar">🐺</div>
+          <div class="guide-message" id="guideMessage">
+            Bonjour ! Je suis le loup. Tu peux commencer par découvrir les émotions, puis essayer les mini-jeux.
           </div>
         </div>
       </div>
@@ -798,37 +969,40 @@
 
     <section id="personnages">
       <div class="container">
-        <h2 class="section-title fade-in">Les éléments du projet</h2>
+        <h2 class="section-title fade-in">Les personnages et les situations</h2>
         <p class="section-subtitle fade-in">
-          Cette version numérique met en avant une approche visuelle, pédagogique et interactive.
+          Chaque personnage aide l’enfant à reconnaître une émotion ou une réaction possible.
         </p>
 
-        <div class="grid grid-3">
-          <div class="card fade-in">
-            <div class="feature-icon">🐺</div>
-            <h3>Le héros</h3>
-            <p>
-              Le loup est le personnage principal. Il permet aux enfants de reconnaître leurs
-              propres inquiétudes à travers un personnage attachant.
-            </p>
+        <div class="grid grid-4">
+          <div class="card character-card fade-in">
+            <div class="character-face face-wolf">🐺</div>
+            <h3>Le loup</h3>
+            <p>Il apprend à apprivoiser sa peur et à avancer avec courage.</p>
           </div>
 
-          <div class="card fade-in">
-            <div class="feature-icon">🌲</div>
-            <h3>L’univers</h3>
-            <p>
-              La forêt, les sons, la nuit et les éléments du décor créent une ambiance douce
-              où l’imaginaire occupe une grande place.
-            </p>
+          <div class="card character-card fade-in">
+            <div class="character-face face-joy">😊</div>
+            <h3>L’enfant joyeux</h3>
+            <p>Il montre ce que l’on ressent quand on se sent heureux et rassuré.</p>
           </div>
 
-          <div class="card fade-in">
-            <div class="feature-icon">✨</div>
-            <h3>L’interactivité</h3>
-            <p>
-              Le site propose une lecture simple, un quiz, des cartes visuelles et une navigation
-              claire adaptée à un public jeunesse.
-            </p>
+          <div class="card character-card fade-in">
+            <div class="character-face face-sad">😢</div>
+            <h3>L’enfant triste</h3>
+            <p>Il aide à comprendre la tristesse et l’importance d’en parler.</p>
+          </div>
+
+          <div class="card character-card fade-in">
+            <div class="character-face face-angry">😠</div>
+            <h3>L’enfant en colère</h3>
+            <p>Il apprend qu’on peut ressentir de la colère sans faire de mal.</p>
+          </div>
+
+          <div class="card character-card fade-in">
+            <div class="character-face face-shy">😳</div>
+            <h3>L’enfant timide</h3>
+            <p>Il montre qu’on peut avoir peur, hésiter, puis réussir petit à petit.</p>
           </div>
         </div>
       </div>
@@ -838,76 +1012,135 @@
       <div class="container">
         <h2 class="section-title fade-in">Comprendre les émotions</h2>
         <p class="section-subtitle fade-in">
-          Une partie importante du projet consiste à aider l’enfant à mettre des mots sur ce qu’il ressent.
+          L’enfant découvre ici les émotions principales utilisées dans les activités.
         </p>
 
         <div class="emotions">
           <div class="emotion fade-in">
-            <div class="emoji">😨</div>
-            <h3>La peur</h3>
-            <p>Elle protège, mais elle peut aussi devenir trop grande quand on imagine le pire.</p>
-          </div>
-
-          <div class="emotion fade-in">
-            <div class="emoji">🤔</div>
-            <h3>Le doute</h3>
-            <p>Le loup hésite souvent avant d’agir, car il ne sait pas encore ce qui l’attend.</p>
-          </div>
-
-          <div class="emotion fade-in">
-            <div class="emoji">💪</div>
-            <h3>Le courage</h3>
-            <p>Le courage, ce n’est pas ne jamais avoir peur : c’est avancer malgré elle.</p>
-          </div>
-
-          <div class="emotion fade-in">
             <div class="emoji">😊</div>
-            <h3>La confiance</h3>
-            <p>Quand il comprend mieux le monde autour de lui, le loup prend confiance.</p>
+            <h3>Joie</h3>
+            <p>Quand on est content, léger et heureux.</p>
+            <div class="emotion-tag tag-yellow">Couleur : jaune</div>
+          </div>
+
+          <div class="emotion fade-in">
+            <div class="emoji">😢</div>
+            <h3>Tristesse</h3>
+            <p>Quand on est déçu, qu’on a du chagrin ou qu’on se sent seul.</p>
+            <div class="emotion-tag tag-blue">Couleur : bleu</div>
+          </div>
+
+          <div class="emotion fade-in">
+            <div class="emoji">😨</div>
+            <h3>Peur</h3>
+            <p>Quand quelque chose nous inquiète ou nous impressionne.</p>
+            <div class="emotion-tag tag-purple">Couleur : violet</div>
+          </div>
+
+          <div class="emotion fade-in">
+            <div class="emoji">😠</div>
+            <h3>Colère</h3>
+            <p>Quand on est très énervé, frustré ou agacé.</p>
+            <div class="emotion-tag tag-red">Couleur : rouge</div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="quiz">
+    <section id="jeux">
       <div class="container">
-        <h2 class="section-title fade-in">Petit quiz interactif</h2>
+        <h2 class="section-title fade-in">Les mini-jeux</h2>
         <p class="section-subtitle fade-in">
-          Ce quiz peut servir d’activité de fin de lecture pour vérifier la compréhension.
+          Les activités reprennent les fonctionnalités annoncées dans le cahier des charges.
         </p>
 
-        <div class="quiz-box fade-in">
-          <div class="quiz-question" id="question">Pourquoi le loup a-t-il souvent peur ?</div>
-
-          <div class="quiz-options" id="options">
-            <button onclick="checkAnswer(false)">Parce qu’il est méchant</button>
-            <button onclick="checkAnswer(true)">Parce qu’il imagine beaucoup de dangers</button>
-            <button onclick="checkAnswer(false)">Parce qu’il ne veut jamais sortir</button>
+        <div class="games-grid">
+          <div class="game-card fade-in">
+            <div class="game-badge">Jeu 1</div>
+            <h3>Reconnaître l’émotion</h3>
+            <p>Trouver l’émotion ressentie dans une situation.</p>
+            <button class="btn btn-primary" onclick="startGame('recognition')">Jouer</button>
           </div>
 
-          <div class="quiz-result" id="result"></div>
+          <div class="game-card fade-in">
+            <div class="game-badge">Jeu 2</div>
+            <h3>Associer situation / émotion</h3>
+            <p>Relier la bonne émotion à la bonne scène.</p>
+            <button class="btn btn-primary" onclick="startGame('association')">Jouer</button>
+          </div>
 
-          <button class="btn btn-primary" onclick="nextQuestion()">Question suivante</button>
+          <div class="game-card fade-in">
+            <div class="game-badge">Jeu 3</div>
+            <h3>Choisir une réaction</h3>
+            <p>Apprendre quelle réaction aide le mieux le personnage.</p>
+            <button class="btn btn-primary" onclick="startGame('reaction')">Jouer</button>
+          </div>
+
+          <div class="game-card fade-in">
+            <div class="game-badge">Jeu 4</div>
+            <h3>Confiance en soi</h3>
+            <p>Encourager l’enfant à choisir des pensées positives et rassurantes.</p>
+            <button class="btn btn-primary" onclick="startGame('confidence')">Jouer</button>
+          </div>
+        </div>
+
+        <div class="activity-panel fade-in">
+          <div class="activity-title" id="gameTitle">Choisis une activité</div>
+          <div class="activity-subtitle" id="gameSubtitle">
+            Clique sur un mini-jeu pour commencer.
+          </div>
+
+          <div class="activity-scene" id="activityScene">
+            <div class="scene-avatar" id="sceneAvatar">🐺</div>
+            <div>
+              <div class="activity-question" id="questionText">Le loup t’attend pour jouer.</div>
+            </div>
+          </div>
+
+          <div class="activity-options" id="optionsContainer"></div>
+
+          <div class="activity-result" id="resultText"></div>
+
+          <div class="activity-controls">
+            <button class="btn btn-secondary" onclick="nextQuestion()">Question suivante</button>
+            <button class="btn btn-soft" onclick="resetGame()">Recommencer le jeu</button>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="galerie">
+    <section id="progression">
       <div class="container">
-        <h2 class="section-title fade-in">Maquettes visuelles</h2>
+        <h2 class="section-title fade-in">Suivi de progression</h2>
         <p class="section-subtitle fade-in">
-          Voici trois exemples de visuels intégrés au site. Tu peux les garder comme maquettes ou les remplacer par tes propres images.
+          Cette partie montre la progression de l’enfant dans les activités.
         </p>
 
-        <div class="gallery">
+        <div class="card progress-card fade-in">
+          <div class="progress-stats">
+            <div>⭐ Score : <span id="scoreValue">0</span></div>
+            <div>✅ Activités réussies : <span id="doneValue">0</span></div>
+            <div>🎯 Questions répondues : <span id="answeredValue">0</span></div>
+          </div>
+
+          <div class="progress-line">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+          <p class="note">
+            Plus tu réussis d’activités, plus ta barre de progression avance.
+          </p>
+        </div>
+
+        <div class="mini-scenes">
           <div class="gallery-item fade-in">
             <div class="mini-scene">
               <div class="mini-tree"></div>
               <div class="mini-wolf"></div>
               <div class="mini-ground"></div>
             </div>
-            <h3>Le loup dans la forêt</h3>
-            <p>Une scène simple qui montre l’ambiance du récit et la peur de l’inconnu.</p>
+            <h3>Le loup observe</h3>
+            <p>Il commence par regarder et essayer de comprendre ce qu’il ressent.</p>
           </div>
 
           <div class="gallery-item fade-in">
@@ -916,8 +1149,8 @@
               <div class="mini-wolf" style="right:50px;"></div>
               <div class="mini-ground"></div>
             </div>
-            <h3>Le moment d’hésitation</h3>
-            <p>Un visuel pour illustrer les moments où le personnage doute avant d’agir.</p>
+            <h3>Le loup essaie</h3>
+            <p>Il apprend à répondre, à faire des choix et à prendre son temps.</p>
           </div>
 
           <div class="gallery-item fade-in">
@@ -926,55 +1159,8 @@
               <div class="mini-wolf" style="right:100px;"></div>
               <div class="mini-ground"></div>
             </div>
-            <h3>Vers plus de confiance</h3>
-            <p>Une image qui accompagne la progression du personnage à la fin de l’histoire.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="container">
-        <h2 class="section-title fade-in">Contact / retour sur le projet</h2>
-        <p class="section-subtitle fade-in">
-          Cette partie peut être utilisée dans une maquette finale pour recueillir un avis d’enseignant, de parent ou d’utilisateur.
-        </p>
-
-        <div class="contact-box">
-          <div class="card fade-in">
-            <h3>Présentation du projet</h3>
-            <p>
-              Ce site a été conçu comme une adaptation web jeunesse. Il met en avant :
-            </p>
-            <br>
-            <p>• une navigation simple</p>
-            <p>• un univers illustré</p>
-            <p>• une lecture courte et claire</p>
-            <p>• une activité interactive</p>
-            <p>• une réflexion sur les émotions</p>
-          </div>
-
-          <div class="card fade-in">
-            <h3>Envoyer un message</h3>
-            <form onsubmit="fakeSubmit(event)">
-              <div class="form-group">
-                <label for="nom">Nom</label>
-                <input type="text" id="nom" placeholder="Votre nom" required>
-              </div>
-
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Votre email" required>
-              </div>
-
-              <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" placeholder="Votre retour sur le projet..." required></textarea>
-              </div>
-
-              <button type="submit" class="btn btn-primary">Envoyer</button>
-              <p class="note" id="form-message"></p>
-            </form>
+            <h3>Le loup progresse</h3>
+            <p>Petit à petit, il gagne en confiance et avance plus sereinement.</p>
           </div>
         </div>
       </div>
@@ -983,84 +1169,267 @@
 
   <footer>
     <div class="container">
-      <p><strong>Projet universitaire - Site interactif jeunesse</strong></p>
+      <p><strong>Projet universitaire - Cahier des charges hypermédia</strong></p>
       <p class="small">
-        Réalisation d’une maquette web inspirée d’un univers littéraire pour enfants.
+        Adaptation web interactive autour du loup, des émotions et de la confiance en soi.
       </p>
     </div>
   </footer>
 
   <script>
-    const quizData = [
-      {
-        question: "Pourquoi le loup a-t-il souvent peur ?",
-        options: [
-          { text: "Parce qu’il est méchant", correct: false },
-          { text: "Parce qu’il imagine beaucoup de dangers", correct: true },
-          { text: "Parce qu’il ne veut jamais sortir", correct: false }
+    const gameData = {
+      recognition: {
+        title: "Jeu 1 : Reconnaître l’émotion",
+        subtitle: "Observe la situation et choisis l’émotion ressentie.",
+        questions: [
+          {
+            avatar: "🐺",
+            question: "Le loup entend un gros bruit dans la nuit. Quelle émotion ressent-il ?",
+            options: [
+              { text: "Joie", correct: false, message: "Ce n’est pas ça. Dans cette situation, le loup n’est pas content." },
+              { text: "Peur", correct: true, message: "Bravo ! Le loup ressent de la peur." },
+              { text: "Colère", correct: false, message: "Pas tout à fait. Ici, le bruit l’inquiète surtout." }
+            ]
+          },
+          {
+            avatar: "😊",
+            question: "Un enfant reçoit une très bonne surprise. Quelle émotion ressent-il ?",
+            options: [
+              { text: "Joie", correct: true, message: "Très bien ! Une bonne surprise peut donner de la joie." },
+              { text: "Tristesse", correct: false, message: "Non, cette situation n’évoque pas la tristesse." },
+              { text: "Peur", correct: false, message: "Non, ici il n’y a pas de danger." }
+            ]
+          },
+          {
+            avatar: "😢",
+            question: "Une enfant perd son jouet préféré. Quelle émotion peut apparaître ?",
+            options: [
+              { text: "Tristesse", correct: true, message: "Oui, perdre quelque chose d’important peut rendre triste." },
+              { text: "Joie", correct: false, message: "Non, ce n’est pas une situation joyeuse." },
+              { text: "Colère", correct: false, message: "Cela peut arriver parfois, mais ici la bonne réponse attendue est la tristesse." }
+            ]
+          }
         ]
       },
-      {
-        question: "Que découvre le loup au fil de l’histoire ?",
-        options: [
-          { text: "Que toutes ses peurs sont toujours vraies", correct: false },
-          { text: "Qu’on peut comprendre et apprivoiser ses peurs", correct: true },
-          { text: "Qu’il faut éviter tout ce qui fait peur", correct: false }
+
+      association: {
+        title: "Jeu 2 : Associer situation / émotion",
+        subtitle: "Trouve l’émotion qui correspond le mieux à la scène.",
+        questions: [
+          {
+            avatar: "😳",
+            question: "Lina doit parler devant toute la classe. Quelle émotion ressent-elle probablement ?",
+            options: [
+              { text: "Peur", correct: true, message: "Oui, parler devant tout le monde peut faire peur." },
+              { text: "Joie", correct: false, message: "Pas ici. Elle est surtout impressionnée." },
+              { text: "Calme", correct: false, message: "Pas vraiment. Cette situation peut être stressante." }
+            ]
+          },
+          {
+            avatar: "😠",
+            question: "Yanis n’arrive pas à finir sa construction. Quelle émotion peut apparaître ?",
+            options: [
+              { text: "Colère", correct: true, message: "Oui ! La frustration peut provoquer de la colère." },
+              { text: "Joie", correct: false, message: "Non, il n’est pas content de la situation." },
+              { text: "Sommeil", correct: false, message: "Non, ce n’est pas lié ici." }
+            ]
+          },
+          {
+            avatar: "😊",
+            question: "Sami joue avec ses amis dans le jardin. Quelle émotion correspond ?",
+            options: [
+              { text: "Tristesse", correct: false, message: "Non, la scène montre plutôt un bon moment." },
+              { text: "Joie", correct: true, message: "Bravo ! Cette situation est liée à la joie." },
+              { text: "Peur", correct: false, message: "Non, il n’y a rien d’inquiétant ici." }
+            ]
+          }
         ]
       },
-      {
-        question: "Quel est le message principal du projet ?",
-        options: [
-          { text: "La peur doit être cachée", correct: false },
-          { text: "Avoir peur est normal et on peut apprendre à avancer", correct: true },
-          { text: "Il ne faut jamais poser de questions", correct: false }
+
+      reaction: {
+        title: "Jeu 3 : Choisir une réaction",
+        subtitle: "Trouve la réaction la plus adaptée face à une émotion difficile.",
+        questions: [
+          {
+            avatar: "🐺",
+            question: "Le loup a peur du noir. Que peut-il faire pour s’aider ?",
+            options: [
+              { text: "Respirer doucement et allumer une petite lumière", correct: true, message: "Très bien ! C’est une réaction rassurante." },
+              { text: "Crier très fort et courir partout", correct: false, message: "Cette réaction n’aide pas à se calmer." },
+              { text: "Se cacher sans rien dire", correct: false, message: "Mieux vaut chercher une solution ou demander de l’aide." }
+            ]
+          },
+          {
+            avatar: "😢",
+            question: "Emma est triste. Quelle réaction est la plus adaptée ?",
+            options: [
+              { text: "Parler à un adulte ou à un ami", correct: true, message: "Oui ! Parler aide à exprimer sa tristesse." },
+              { text: "Tout garder pour elle", correct: false, message: "Ce n’est pas la meilleure solution." },
+              { text: "Se moquer des autres", correct: false, message: "Non, cela n’aide pas à se sentir mieux." }
+            ]
+          },
+          {
+            avatar: "😠",
+            question: "Un enfant est en colère. Que peut-il faire ?",
+            options: [
+              { text: "Prendre une pause et respirer", correct: true, message: "Bravo ! Cela aide à retrouver son calme." },
+              { text: "Pousser quelqu’un", correct: false, message: "Non, cette réaction n’est pas adaptée." },
+              { text: "Casser un objet", correct: false, message: "Non, cela ne règle pas l’émotion." }
+            ]
+          }
+        ]
+      },
+
+      confidence: {
+        title: "Jeu 4 : Confiance en soi",
+        subtitle: "Choisis la pensée ou l’action qui aide à prendre confiance.",
+        questions: [
+          {
+            avatar: "😳",
+            question: "Lina pense : “Je n’y arriverai jamais.” Quelle pensée peut l’aider davantage ?",
+            options: [
+              { text: "Je peux essayer petit à petit", correct: true, message: "Oui ! Cette pensée aide à prendre confiance." },
+              { text: "Je suis nulle", correct: false, message: "Cette phrase fait perdre confiance." },
+              { text: "Je dois abandonner tout de suite", correct: false, message: "Non, mieux vaut essayer progressivement." }
+            ]
+          },
+          {
+            avatar: "🐺",
+            question: "Le loup hésite avant d’entrer dans un endroit nouveau. Quelle action l’aide ?",
+            options: [
+              { text: "Avancer doucement et observer", correct: true, message: "Très bien ! Aller doucement aide à se rassurer." },
+              { text: "Dire qu’il ne peut jamais rien faire", correct: false, message: "Cette pensée bloque la confiance." },
+              { text: "Fuir sans réfléchir", correct: false, message: "Mieux vaut prendre son temps et essayer." }
+            ]
+          },
+          {
+            avatar: "😊",
+            question: "Après avoir réussi une petite étape, que peut faire l’enfant ?",
+            options: [
+              { text: "Se féliciter", correct: true, message: "Bravo ! Se féliciter aide à renforcer la confiance en soi." },
+              { text: "Dire que ça ne compte pas", correct: false, message: "Au contraire, chaque petite réussite compte." },
+              { text: "Penser seulement à ce qui a raté", correct: false, message: "Mieux vaut aussi voir ce qui a été réussi." }
+            ]
+          }
         ]
       }
-    ];
+    };
 
-    let currentQuestion = 0;
+    let currentGameKey = null;
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let done = 0;
+    let answered = 0;
+    let alreadyCountedCurrentQuestion = false;
 
-    function renderQuestion() {
-      const q = quizData[currentQuestion];
-      document.getElementById("question").textContent = q.question;
+    function updateGuideMessage(text) {
+      document.getElementById("guideMessage").textContent = text;
+    }
 
-      const optionsContainer = document.getElementById("options");
+    function updateProgress() {
+      document.getElementById("scoreValue").textContent = score;
+      document.getElementById("doneValue").textContent = done;
+      document.getElementById("answeredValue").textContent = answered;
+
+      const totalPossible = 12;
+      const percentage = Math.min((answered / totalPossible) * 100, 100);
+      document.getElementById("progressFill").style.width = percentage + "%";
+    }
+
+    function startGame(gameKey) {
+      currentGameKey = gameKey;
+      currentQuestionIndex = 0;
+      alreadyCountedCurrentQuestion = false;
+      renderCurrentQuestion();
+
+      const guideTexts = {
+        recognition: "Je vais te montrer une situation. À toi de reconnaître l’émotion.",
+        association: "Observe bien la scène et choisis l’émotion qui lui correspond.",
+        reaction: "Ici, tu dois trouver la meilleure réaction pour aider le personnage.",
+        confidence: "Dans ce jeu, tu choisis les pensées et actions qui donnent confiance."
+      };
+
+      updateGuideMessage(guideTexts[gameKey] || "C’est parti !");
+      document.getElementById("jeux").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function renderCurrentQuestion() {
+      if (!currentGameKey) return;
+
+      const game = gameData[currentGameKey];
+      const q = game.questions[currentQuestionIndex];
+
+      document.getElementById("gameTitle").textContent = game.title;
+      document.getElementById("gameSubtitle").textContent = game.subtitle;
+      document.getElementById("sceneAvatar").textContent = q.avatar;
+      document.getElementById("questionText").textContent = q.question;
+
+      const optionsContainer = document.getElementById("optionsContainer");
       optionsContainer.innerHTML = "";
 
       q.options.forEach(option => {
         const btn = document.createElement("button");
         btn.textContent = option.text;
-        btn.onclick = () => checkAnswer(option.correct);
+        btn.onclick = () => checkAnswer(option.correct, option.message);
         optionsContainer.appendChild(btn);
       });
 
-      document.getElementById("result").textContent = "";
+      document.getElementById("resultText").textContent = "";
+      document.getElementById("resultText").className = "activity-result";
+      alreadyCountedCurrentQuestion = false;
     }
 
-    function checkAnswer(isCorrect) {
-      const result = document.getElementById("result");
-      if (isCorrect) {
-        result.textContent = "✅ Bravo ! C’est la bonne réponse.";
-        result.style.color = "#2e7d32";
-      } else {
-        result.textContent = "❌ Ce n’est pas la bonne réponse. Réessaie ou passe à la suivante.";
-        result.style.color = "#c62828";
+    function checkAnswer(isCorrect, message) {
+      const result = document.getElementById("resultText");
+
+      if (!alreadyCountedCurrentQuestion) {
+        answered++;
+        alreadyCountedCurrentQuestion = true;
       }
+
+      if (isCorrect) {
+        score++;
+        done++;
+        result.textContent = "✅ " + message;
+        result.className = "activity-result success-text";
+        updateGuideMessage("Bravo ! Tu progresses très bien. Continue comme ça.");
+      } else {
+        result.textContent = "❌ " + message;
+        result.className = "activity-result error-text";
+        updateGuideMessage("Ce n’est pas grave. Essaie encore ou passe à la question suivante.");
+      }
+
+      updateProgress();
     }
 
     function nextQuestion() {
-      currentQuestion++;
-      if (currentQuestion >= quizData.length) {
-        currentQuestion = 0;
+      if (!currentGameKey) {
+        updateGuideMessage("Choisis d’abord un mini-jeu.");
+        return;
       }
-      renderQuestion();
+
+      const game = gameData[currentGameKey];
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex >= game.questions.length) {
+        currentQuestionIndex = 0;
+        updateGuideMessage("Tu as terminé ce mini-jeu ! Tu peux le recommencer ou en choisir un autre.");
+      } else {
+        updateGuideMessage("Très bien, passons à la question suivante.");
+      }
+
+      renderCurrentQuestion();
     }
 
-    function fakeSubmit(event) {
-      event.preventDefault();
-      document.getElementById("form-message").textContent =
-        "Merci ! Votre message a bien été pris en compte dans cette maquette.";
-      event.target.reset();
+    function resetGame() {
+      if (!currentGameKey) {
+        updateGuideMessage("Choisis d’abord un mini-jeu.");
+        return;
+      }
+
+      currentQuestionIndex = 0;
+      renderCurrentQuestion();
+      updateGuideMessage("On recommence ce mini-jeu depuis le début.");
     }
 
     const observer = new IntersectionObserver((entries) => {
@@ -1073,7 +1442,7 @@
 
     document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
 
-    renderQuestion();
+    updateProgress();
   </script>
 </body>
 </html>
